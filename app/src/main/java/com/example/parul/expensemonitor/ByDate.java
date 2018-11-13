@@ -63,7 +63,6 @@ public class ByDate extends AppCompatActivity
         db = new DataBaseOperations(this);
         dataList  = new ArrayList<>();
         adapter = new ExpenseListAdapter(dataList,this);
-
         rvByDate.setLayoutManager(new LinearLayoutManager(this));
         rvByDate.setAdapter(adapter);
         rvByDate.setHasFixedSize(true);

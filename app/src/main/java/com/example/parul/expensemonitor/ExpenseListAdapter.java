@@ -41,6 +41,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
 
     class MyViewHolder extends RecyclerView.ViewHolder // to hold view
     {
+
         TextView textVthings;
         TextView textVmoney;
 
