@@ -7,10 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import java.util.List;
 
-public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.MyViewHolder>
-{
+public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.MyViewHolder> {
     List<ExpenseData> listExpense;//created list for listing multiple expense data
     Context context; //for creating layout inflator
 
@@ -21,19 +21,17 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
-    {
-        View view = LayoutInflater.from(context).inflate(R.layout.daily_expense_model,parent,false); //created view
-        MyViewHolder myViewHolder = new MyViewHolder(view);  //object instantiation for myviewHolder
-        return myViewHolder; // retunrning object of MyViewHolder
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.daily_expense_model, parent, false); //created view
+        return new MyViewHolder(view);  //object instantiation for myviewHolder
+        // retunrning object of MyViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position)
-    {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         ExpenseData expenseData = listExpense.get(position); //  object for current index data
         holder.textVthings.setText(expenseData.getMoneySpendOn()); // setting current text to view
-        holder.textVmoney.setText(expenseData.getAmount());  // same
+        holder.textVmoney.setText(String.format("Rs. %d", expenseData.getAmount()));  // same
     }
 
     @Override
@@ -45,9 +43,9 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
     {
         TextView textVthings;
         TextView textVmoney;
+
         public MyViewHolder(View itemView) {
             super(itemView);
-
             textVthings = itemView.findViewById(R.id.TVmoneySpendOnThings);
             textVmoney = itemView.findViewById(R.id.TVmoneySpend);
         }
