@@ -11,41 +11,39 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ByDate extends AppCompatActivity
-{
-    RecyclerView rvByDate;
+public class ByDateOfMonth extends AppCompatActivity {
+
+    int byDate;
+    int byYear;
+    String byMonth;
+    RecyclerView rvByDateOfMonth;
     DataBaseOperations db;
     ExpenseListAdapter adapter;
-    String byMonth = "";
     List<ExpenseData> dataList;
-    int byYear;
-    TextView tvTotalMonthAmount;
+    TextView tvTotalDateAmount;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_by_date);
+        setContentView(R.layout.activity_by_date_of_month);
         Intent intent = getIntent();
+        byDate = intent.getIntExtra("day", 0);
         byMonth = intent.getStringExtra("month");
-        byYear = intent.getIntExtra("year",2018);
-
+        byYear = intent.getIntExtra("year", 2018);
         getUi();
-
-        showDataByDate(byMonth,byYear);
+        showDataByDateOfMonth(byDate, byMonth, byYear);
     }
 
-    private void showDataByDate(String byMonth, int byYear)
-    {
+    private void showDataByDateOfMonth(int byDate, String byMonth, int byYear) {
         dataList.clear();
         db.open();
-        Cursor data = db.getByMonthYear(byMonth,byYear);
-        if (data.getCount() > 0)
-        {
-            // Toast.makeText(this, "Found "+data.getCount()+" entries", Toast.LENGTH_SHORT).show();
+        Cursor data = db.getDataByDate(byDate, byMonth, byYear);
+        if (data.getCount() > 0) {
+            //Toast.makeText(this, "Found "+data.getCount()+" entries", Toast.LENGTH_SHORT).show();
         }
-        int sum = 0;
-        while (data.moveToNext())
-        {
+        long sum = 0;
+        while (data.moveToNext()) {
             dataList.add
                     (new ExpenseData
                             (
@@ -55,26 +53,24 @@ public class ByDate extends AppCompatActivity
                                     data.getInt(1),
                                     data.getInt(3),
                                     data.getString(2)
-                    ));
+                            ));
             adapter.notifyDataSetChanged();
             sum = sum + data.getInt(5);
         }
 
-
-        tvTotalMonthAmount = (TextView) findViewById(R.id.tvTotalMonthAmount);
-        tvTotalMonthAmount.setText(" This Month's Total Expense=" + sum);
+        tvTotalDateAmount = (TextView) findViewById(R.id.tvTotalDateAmount);
+        tvTotalDateAmount.setText(" Total Expense=" + sum);
 
     }
 
-    private void getUi()
-    {
-        rvByDate = findViewById(R.id.rv_ByDate);
+    public void getUi() {
+        rvByDateOfMonth = findViewById(R.id.rv_ByDateOfMonth);
         db = new DataBaseOperations(this);
-        dataList  = new ArrayList<>();
-        adapter = new ExpenseListAdapter(dataList,this);
-        rvByDate.setLayoutManager(new LinearLayoutManager(this));
-        rvByDate.setAdapter(adapter);
-        rvByDate.setHasFixedSize(true);
+        dataList = new ArrayList<>();
+        adapter = new ExpenseListAdapter(dataList, this);
+        rvByDateOfMonth.setLayoutManager(new LinearLayoutManager(this));
+        rvByDateOfMonth.setAdapter(adapter);
+        rvByDateOfMonth.setHasFixedSize(true);
         adapter.notifyDataSetChanged();
     }
 }

@@ -13,6 +13,7 @@ public class DataBaseOperations {
     public SQLiteDatabase db;
     public DataBaseOpener dbOpener;
 
+
     public DataBaseOperations(Context context) {
         this.context = context;
         this.dbOpener = new DataBaseOpener(context, DataBaseOpener.DB_NAME, null, 1);
@@ -56,6 +57,20 @@ public class DataBaseOperations {
                 ,new String[]{month, String.valueOf(year)}
                 ,null,null,null
         );
+    }
+
+    public int update(ContentValues values, int primaryKey)//contentvalues stores expense and amount and key stores the  sno
+    {
+        String qry = "sno = ?"; // ? run time pe 4th argument se replace hoga
+        return db.update(TABLE_NAME, values, qry, new String[]{String.valueOf(primaryKey)}); // new string hai 4th arg
+    }
+
+    public Cursor getById(int sno) {
+        return db.query(TABLE_NAME, null, "sno = ?", new String[]{String.valueOf(sno)}, null, null, null);
+    }
+
+    public int delete(int sno) throws SQLException {
+        return db.delete(TABLE_NAME, "sno = ?", new String[]{String.valueOf(sno)});
     }
 
 

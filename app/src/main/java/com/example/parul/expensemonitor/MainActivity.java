@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     int byYear;
     Spinner spinnerMonth;
     Spinner spinnerYear;
+    TextView tvtotalamount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         db = new DataBaseOperations(this);
         fab = findViewById(R.id.fabAddExpense);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,12 +87,13 @@ public class MainActivity extends AppCompatActivity {
             if (tvNo != null)
                 tvNo.setVisibility(View.VISIBLE);
         }
-
+        long sum = 0;
         while (dataItems.moveToNext()) {
             dataList.add
                     (
                             new ExpenseData
                                     (
+                                            dataItems.getInt(0),
                                             dataItems.getString(4)
                                             , dataItems.getInt(5)
                                             , dataItems.getInt(1)
@@ -99,8 +102,13 @@ public class MainActivity extends AppCompatActivity {
                                     )
                     );
             adapter.notifyDataSetChanged();
+            sum = sum + dataItems.getInt(5); // kyu ki  indx 5 pee amount h toh ek ek amount aega or sum variable me add hota rhega
         }
+        tvtotalamount = (TextView) findViewById(R.id.tvtotalamount);
+        tvtotalamount.setText("Today's Total Expense = Rs. " + sum); //hihihaha
+
         db.close();
+
 
     }
 
@@ -123,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                         db.insert(currentData);
                         db.close();
                         showTodaysExpense();
-                        Toast.makeText(MainActivity.this, "Expense added \n" + exp + "\n" + " amounting Rs. " + amt, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Expense added \n" + exp + "\n" + "amount Rs. " + amt, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("Cancel", null)
@@ -214,8 +222,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-                calendar.set(year, month, dayOfMonth);
-                Toast.makeText(MainActivity.this, "Showing date of \n" + dayOfMonth + "/" + monthNames[month] + "/" + year, Toast.LENGTH_SHORT).show();
+                calendar.set(year, month, dayOfMonth); // ye data bhejna hai
+                // Toast.makeText(MainActivity.this, "Showing data of \n" + dayOfMonth + "/" + monthNames[month] + "/" + year, Toast.LENGTH_SHORT).show();
+
+                Intent gotoByDateActivity = new Intent(MainActivity.this, ByDateOfMonth.class);
+                gotoByDateActivity.putExtra("day", dayOfMonth);
+                gotoByDateActivity.putExtra("year", year);
+                gotoByDateActivity.putExtra("month", monthNames[month]);
+                gotoByDateActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(gotoByDateActivity);
 
             }
         }, calendar.get(Calendar.YEAR)

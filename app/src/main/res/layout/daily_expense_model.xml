@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/rectangle"
     android:padding="4dp"
+    android:layout_marginTop="2dp"
     android:orientation="horizontal">
 
     <TextView
@@ -14,6 +16,14 @@
         android:textColor="@color/colorAccent"
         android:textSize="20sp"
         android:padding="4dp"/>
+
+    <View
+        android:id="@+id/view_separator"
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:background="#cfcfcf" />
 
     <TextView
         android:id="@+id/TVmoneySpend"

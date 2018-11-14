@@ -9,7 +9,7 @@
         android:text="Expense -"
         android:id="@+id/TVExpense"
         android:layout_alignParentTop="true"
-        android:textSize="25dp"
+        android:textSize="20sp"
         android:layout_marginLeft="10dp"/>
 
 
@@ -27,7 +27,7 @@
         android:text="Amount -"
         android:id="@+id/TVamount"
         android:layout_below="@id/TVExpense"
-        android:textSize="25dp"
+        android:textSize="20sp"
         android:layout_marginLeft="10dp"/>
 
 
