@@ -80,19 +80,18 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
                             final EditText edtExpense = view.findViewById(R.id.edtExpense);
                             final EditText edtAmount = view.findViewById(R.id.edtAmount);
 
-                            //kholo or koi pe click kro edit box me entry kro kroooo
-                            //
+
 
                             final DataBaseOperations db = new DataBaseOperations(context);
                             db.open();
                             Cursor dbData = db.getById(data.getSno());
                             //Log.i("PARUL", String.valueOf(dbData.getCount()+" mile "));
                             while (dbData.moveToNext()) {
-                                // expense ka index btao db me abe copy se dkh k btana 4, amt5 ?
-                                edtExpense.setText(dbData.getString(4));
+
+                                edtExpense.setText(dbData.getString(4)); // data base me jo exp val pehle se save h wo isske through dikhegi
                                 edtAmount.setText(dbData.getString(5));
                             }
-                            new AlertDialog.Builder(context)
+                            new AlertDialog.Builder(context) // creating alert box without object after user clck edit
                                     .setView(view)
                                     .setCancelable(false)
                                     .setPositiveButton("Update", new DialogInterface.OnClickListener() {
@@ -132,13 +131,13 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             DataBaseOperations db = new DataBaseOperations(context);
-                            db.open();
-                            int z = db.delete(data.getSno());
+                            db.open();//opening database
+                            int z = db.delete(data.getSno()); //calling delete method
                             if (z > 0)
                                 Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
 
                             db.close();
-                            ((Activity) context).recreate(); //delete krne pe puchega nhi sidhe del krega ?? thik hai ? bolo ?//haan thik hai
+                            ((Activity) context).recreate(); // recreating activity
 
 
                         }
